@@ -43,7 +43,7 @@ public class TransactionService {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (user.getUserRole() != UserRole.STUDENT) {
+        if (user.getUserRole() != UserRole.ROLE_STUDENT) {
             throw new BadRequestException("Only students can issue books");
         }
 

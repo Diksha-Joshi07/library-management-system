@@ -1,5 +1,6 @@
 package com.diksha.library.controller;
 
+import com.diksha.library.dto.request.LoginRequestDTO;
 import com.diksha.library.dto.request.UserRequestDTO;
 import com.diksha.library.dto.response.UserResponseDTO;
 import com.diksha.library.entity.User;
@@ -8,6 +9,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,12 +20,37 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final AuthenticationManager authenticationManager;
 
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO dto) {
-        return ResponseEntity.ok(userService.createUser(dto));
+    public UserController(UserService userService,
+                          AuthenticationManager authenticationManager) {
+        this.userService = userService;
+        this.authenticationManager = authenticationManager;
+    }
+
+    // ✅ Register user
+    @PostMapping("/register")
+    public ResponseEntity<UserResponseDTO> register(
+            @Valid @RequestBody UserRequestDTO request) {
+
+        return ResponseEntity.ok(userService.createUser(request));
+    }
+
+    // ✅ Login user
+    @PostMapping("/login")
+    public ResponseEntity<String> login(
+            @Valid @RequestBody LoginRequestDTO request) {
+
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                request.getEmail(),
+                                request.getPassword()
+                        )
+                );
+
+        return ResponseEntity.ok("Login successful");
     }
 
     @GetMapping("/name/{name}")

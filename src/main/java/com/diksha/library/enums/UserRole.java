@@ -1,6 +1,6 @@
 package com.diksha.library.enums;
 
 public enum UserRole {
-    ADMIN,
-    STUDENT;
+    ROLE_ADMIN,
+    ROLE_STUDENT
 }
