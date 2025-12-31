@@ -38,23 +38,5 @@ com.yourname.library
 └── exception
 
 
----
-
-## ⚙️ How to Run
-1. Clone the repository
-2. Create MySQL database `library_db`
-3. Update `application.properties`
-4. Run `LibraryManagementSystemApplication`
-
----
-
-## 📄 Future Enhancements
-- JWT Authentication
-- Redis Caching
-- Swagger API Documentation
-- Kafka for Event Handling
-
----
-
 ## 👩‍💻 Author
 **Diksha Joshi**
